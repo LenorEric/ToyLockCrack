@@ -36,9 +36,6 @@ def get_certain_c(target, c):
     while de_calc_check_pos(int(code)) != c:
         code = get_code(target)
     code = remove_check(code)
-    code = str(code)
-    if len(code) < 4:
-        code = "".join("0" for _ in range(4 - len(code))) + code
     return code
 
 
@@ -63,5 +60,5 @@ def bit_minus(a_, b_):
 
 
 if __name__ == '__main__':
-    a = get_certain_c(104, 1)
+    a = get_certain_c("000000000000000000000000000000000000000000000", 1)
     print(a)

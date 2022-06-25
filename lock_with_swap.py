@@ -49,4 +49,4 @@ def gen_all_cip(target):
 
 
 if __name__ == '__main__':
-    print(gen_all_cip("123456789"))
+    print(gen_all_cip("000000000000000000000"))
