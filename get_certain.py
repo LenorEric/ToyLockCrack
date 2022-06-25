@@ -1,11 +1,17 @@
 import subprocess
 
 
+def get_diff(a, b):
+    for i in range(len(a)):
+        if a[i] != b[i]:
+            return i
+
+
 def get_code(target):
     proc = subprocess.Popen('toy_lock.exe l', stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     ret = proc.communicate(input=('%s\n' % str(target)).encode())
     ret = ret[0].decode()[:-1]
-    return int(ret)
+    return ret
 
 
 def de_calc_check_pos(code):
@@ -18,23 +24,44 @@ def de_calc_check_pos(code):
 
 
 def remove_check(code):
-    cp = de_calc_check_pos(code)
+    cp = de_calc_check_pos(int(code))
     cs = str(code)
     cp = len(cs) - cp
     cs = cs[:cp - 1] + cs[cp:]
-    return int(cs)
+    return cs
 
 
 def get_certain_c(target, c):
     code = get_code(target)
-    while de_calc_check_pos(code) != c:
+    while de_calc_check_pos(int(code)) != c:
         code = get_code(target)
+    code = remove_check(code)
+    code = str(code)
+    if len(code) < 4:
+        code = "".join("0" for _ in range(4 - len(code))) + code
     return code
 
 
-def print_ret():
-    return get_certain_c(11000000, 0)
+def certain_shift(target, shift):
+    for i in range(len(str(target))):
+        print(len(str(target)) - i - 1, end="")
+    print()
+    for xxx in range(target, target + 10 ** (shift + 1), 10 ** shift):
+        print(get_certain_c(xxx, 0))
+
+
+def try_shift(suffix):
+    sums = int(suffix) + len(suffix)
+    return sums
+
+
+def bit_minus(a_, b_):
+    ret = ""
+    for i in range(len(a_)):
+        ret += str((int(a_[i]) - int(b_[i])) % 10)
+    return ret
 
 
 if __name__ == '__main__':
-    print(print_ret())
+    a = get_certain_c(104, 1)
+    print(a)
